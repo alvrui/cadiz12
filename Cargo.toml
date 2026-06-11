@@ -1,0 +1,39 @@
+[package]
+name = "cadiz12"
+version = "0.1.0"
+edition = "2021"
+authors = ["Alvaro <alvaro@example.com>"]
+description = "Motor de juego narrativo-político: Cádiz 1812"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+strum = "0.25"
+strum_macros = "0.25"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+lazy_static = "1.4"
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.10"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1.0", features = ["full"] }
+rand = "0.8"
+crossterm = "0.27"
+ratatui = "0.25"
+
+[dev-dependencies]
+pretty_assertions = "1.4"
+
+[[example]]
+name = "simular"
+path = "examples/simular.rs"
+
+[[example]]
+name = "generar_config"
+path = "examples/generar_config.rs"
+
+[[example]]
+name = "terminal_game"
+path = "examples/terminal_game.rs"

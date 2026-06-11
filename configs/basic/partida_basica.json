@@ -1,0 +1,90 @@
+{
+  "nombre": "Partida Basica",
+  "descripcion": "Configuracion basica para testing del motor",
+  "periodo_inicio": "1810-09-24",
+  "periodo_fin": "1814-05-01",
+  "jornadas_totales": 500,
+  "medidores": {
+    "influencia": { "umbral_bajo": 30, "umbral_alto": 80, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 },
+    "relacional": { "umbral_bajo": 25, "umbral_alto": 75, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 },
+    "reputacion": { "umbral_bajo": 35, "umbral_alto": 85, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 },
+    "coherencia": { "umbral_bajo": 40, "umbral_alto": 90, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 },
+    "recursos": { "umbral_bajo": 20, "umbral_alto": 70, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 },
+    "aguante": { "umbral_bajo": 25, "umbral_alto": 80, "decaimiento_tasa": 0.0, "decaimiento_inicio": 0 }
+  },
+  "facciones": {
+    "facciones": {
+      "liberal_progresista": {
+        "id": "liberal_progresista",
+        "nombre": "Liberales Progresistas",
+        "descripcion": "Partidarios de reformas profundas y rapidas",
+        "lideres": [
+          { "id": "arguelles", "nombre": "Agustin Arguelles", "descripcion": "Lider intelectual", "influencia": 95 },
+          { "id": "munoz_torrero", "nombre": "Diego Munoz Torrero", "descripcion": "Estratega", "influencia": 90 }
+        ],
+        "estado_inicial": { "fuerza": 4, "necesidad_del_jugador": 2, "cohesion_interna": 3, "linea_roja_activa": false, "vigilancia_sobre_jugador": 1 },
+        "temas_sensibles": ["soberania_nacional", "libertades_individuales"],
+        "alianzas": ["liberal_moderado", "americanista"],
+        "conflictos": ["absolutista_servil"]
+      }
+    }
+  },
+  "espacios": {
+    "espacios": {
+      "oratorio_san_felipe_neri": {
+        "id": "oratorio_san_felipe_neri",
+        "nombre": "Oratorio de San Felipe Neri",
+        "descripcion": "Sede de las Cortes desde febrero de 1811",
+        "funcion": "Debate formal, votacion, enmienda, procedimiento",
+        "tipo_interaccion": "Institucional",
+        "coste_temporal": 4,
+        "nivel_riesgo": 2,
+        "clima_inicial": "nervioso",
+        "npcs_iniciales": ["arguelles", "munoz_torrero"],
+        "requerimientos": ["ser_diputado"]
+      }
+    }
+  },
+  "personajes": {
+    "npcs": {
+      "arguelles": {
+        "id": "arguelles",
+        "nombre": "Agustin Arguelles",
+        "descripcion": "Lider liberal progresista, jurista brillante",
+        "faccion": "liberal_progresista",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "jurista_abogado",
+        "adscripcion": "liberal_progresista",
+        "temperamento": "retorico",
+        "relacion_inicial": 0,
+        "confianza_inicial": 30,
+        "deuda_inicial": 0,
+        "habilidades": [
+          { "id": "lectura_tecnica", "nombre": "Lectura tecnica de borradores", "descripcion": "Puede analizar textos legales complejos", "escenas_determinantes": ["comisiones"] }
+        ],
+        "espacios": ["oratorio_san_felipe_neri", "comisiones_parlamentarias"]
+      }
+    }
+  },
+  "eventos": {
+    "eventos_fijos": [
+      { "id": "trafalgar", "nombre": "Batalla de Trafalgar", "fecha": "1805-10-21", "descripcion": "Derrota de la flota franco-espanola", "impacto": "Aumento del aislamiento de Cadiz", "jornada": 0 },
+      { "id": "inauguracion_cortes", "nombre": "Inauguracion de las Cortes", "fecha": "1810-09-24", "descripcion": "Primera sesion de las Cortes de Cadiz", "impacto": "Inicio del proceso constituyente", "jornada": 100 }
+    ],
+    "plantillas": {},
+    "familias": {}
+  },
+  "perfil_inicial": {
+    "origen": "peninsular",
+    "clase_social": "hidalguia_profesion_letrada",
+    "oficio": "jurista_abogado",
+    "adscripcion": "liberal_progresista",
+    "temperamento": "prudente",
+    "compromisos": [
+      { "id": "deuda_consulado", "tipo": "material", "descripcion": "Deuda con el Consulado de Cadiz", "impacto": "Presion economica constante" }
+    ]
+  },
+  "espacio_inicial": "cafe_apolo",
+  "presupuesto_temporal": 8
+}

@@ -1,0 +1,710 @@
+{
+  "nombre": "Partida Generada por SDK",
+  "descripcion": "Configuración generada automáticamente usando el SDK",
+  "periodo_inicio": "1810-09-24",
+  "periodo_fin": "1814-05-01",
+  "jornadas_totales": 1000,
+  "medidores": {
+    "influencia": {
+      "umbral_bajo": 35,
+      "umbral_alto": 90,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    },
+    "relacional": {
+      "umbral_bajo": 25,
+      "umbral_alto": 75,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    },
+    "reputacion": {
+      "umbral_bajo": 35,
+      "umbral_alto": 85,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    },
+    "coherencia": {
+      "umbral_bajo": 40,
+      "umbral_alto": 90,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    },
+    "recursos": {
+      "umbral_bajo": 20,
+      "umbral_alto": 70,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    },
+    "aguante": {
+      "umbral_bajo": 25,
+      "umbral_alto": 80,
+      "decaimiento_tasa": 0.0,
+      "decaimiento_inicio": 0
+    }
+  },
+  "facciones": {
+    "facciones": {
+      "liberal_moderado": {
+        "id": "liberal_moderado",
+        "nombre": "Liberales Moderados",
+        "descripcion": "Reformistas graduales. Buscan equilibrio entre tradición y progreso.",
+        "lideres": [
+          {
+            "id": "martinez_rosa",
+            "nombre": "Francisco de Paula Martínez de la Rosa",
+            "descripcion": "Mediador",
+            "influencia": 92
+          }
+        ],
+        "estado_inicial": {
+          "fuerza": 2,
+          "necesidad_del_jugador": 3,
+          "cohesion_interna": 2,
+          "linea_roja_activa": false,
+          "vigilancia_sobre_jugador": 1
+        },
+        "temas_sensibles": [
+          "equilibrio_poder",
+          "estabilidad"
+        ],
+        "alianzas": [
+          "liberal_progresista",
+          "absolutista_servil"
+        ],
+        "conflictos": [
+          "independiente_oportunista"
+        ]
+      },
+      "americanista": {
+        "id": "americanista",
+        "nombre": "Americanistas",
+        "descripcion": "Diputados de América. Divididos entre reformar el Imperio o independizarse.",
+        "lideres": [
+          {
+            "id": "power",
+            "nombre": "José Miguel Power y Morante",
+            "descripcion": "Representante de Buenos Aires",
+            "influencia": 87
+          },
+          {
+            "id": "ramos_arizpe",
+            "nombre": "Miguel Ramos Arizpe",
+            "descripcion": "Representante de Nueva España",
+            "influencia": 91
+          }
+        ],
+        "estado_inicial": {
+          "fuerza": 2,
+          "necesidad_del_jugador": 2,
+          "cohesion_interna": 1,
+          "linea_roja_activa": false,
+          "vigilancia_sobre_jugador": 1
+        },
+        "temas_sensibles": [
+          "equacion_imperial",
+          "reformar_o_independizar"
+        ],
+        "alianzas": [
+          "liberal_progresista"
+        ],
+        "conflictos": [
+          "absolutista_servil"
+        ]
+      },
+      "absolutista_servil": {
+        "id": "absolutista_servil",
+        "nombre": "Absolutistas/Serviles",
+        "descripcion": "Defensores del Antiguo Régimen y la autoridad real.",
+        "lideres": [
+          {
+            "id": "ostolaza",
+            "nombre": "Fernando Ostolaza",
+            "descripcion": "Conservador intransigente",
+            "influencia": 85
+          }
+        ],
+        "estado_inicial": {
+          "fuerza": 1,
+          "necesidad_del_jugador": 0,
+          "cohesion_interna": 2,
+          "linea_roja_activa": true,
+          "vigilancia_sobre_jugador": 3
+        },
+        "temas_sensibles": [
+          "tradicion",
+          "autoridad_real"
+        ],
+        "alianzas": [
+          "liberal_moderado"
+        ],
+        "conflictos": [
+          "liberal_progresista",
+          "americanista"
+        ]
+      },
+      "independiente_oportunista": {
+        "id": "independiente_oportunista",
+        "nombre": "Independientes/Oportunistas",
+        "descripcion": "Políticos sin adhesión fija. Actúan según conveniencia.",
+        "lideres": [],
+        "estado_inicial": {
+          "fuerza": 1,
+          "necesidad_del_jugador": 2,
+          "cohesion_interna": 1,
+          "linea_roja_activa": false,
+          "vigilancia_sobre_jugador": 1
+        },
+        "temas_sensibles": [
+          "beneficio_personal"
+        ],
+        "alianzas": [],
+        "conflictos": [
+          "liberal_moderado"
+        ]
+      },
+      "liberal_progresista": {
+        "id": "liberal_progresista",
+        "nombre": "Liberales Progresistas",
+        "descripcion": "Partidarios de reformas profundas y rápidas. Defienden la soberanía nacional y las libertades individuales.",
+        "lideres": [
+          {
+            "id": "arguelles",
+            "nombre": "Agustín Argüelles",
+            "descripcion": "Líder intelectual",
+            "influencia": 99
+          },
+          {
+            "id": "munoz_torrero",
+            "nombre": "Diego Muñoz Torrero",
+            "descripcion": "Estratega",
+            "influencia": 91
+          }
+        ],
+        "estado_inicial": {
+          "fuerza": 3,
+          "necesidad_del_jugador": 1,
+          "cohesion_interna": 3,
+          "linea_roja_activa": false,
+          "vigilancia_sobre_jugador": 1
+        },
+        "temas_sensibles": [
+          "soberania_nacional",
+          "libertades_individuales"
+        ],
+        "alianzas": [
+          "liberal_moderado",
+          "americanista"
+        ],
+        "conflictos": [
+          "absolutista_servil"
+        ]
+      }
+    }
+  },
+  "espacios": {
+    "espacios": {
+      "cafe_apolo": {
+        "id": "cafe_apolo",
+        "nombre": "Café de Apolo",
+        "descripcion": "El filtro popular de la información impresa.",
+        "funcion": "Rumor, opinión, reclutamiento de apoyos, provocación",
+        "tipo_interaccion": "Social",
+        "coste_temporal": 2,
+        "nivel_riesgo": 2,
+        "clima_inicial": "efervescente",
+        "npcs_iniciales": [
+          "periodista_1"
+        ],
+        "requerimientos": []
+      },
+      "catedral_red_eclesiastica": {
+        "id": "catedral_red_eclesiastica",
+        "nombre": "Catedral y red eclesiástica",
+        "descripcion": "Centro religioso de la ciudad.",
+        "funcion": "Legitimidad moral, presión doctrinal, mediación conservadora",
+        "tipo_interaccion": "Religioso",
+        "coste_temporal": 3,
+        "nivel_riesgo": 1,
+        "clima_inicial": "tranquilo",
+        "npcs_iniciales": [
+          "obispo_1"
+        ],
+        "requerimientos": []
+      },
+      "oratorio_san_felipe_neri": {
+        "id": "oratorio_san_felipe_neri",
+        "nombre": "Oratorio de San Felipe Neri",
+        "descripcion": "Sede de las Cortes desde febrero de 1811.",
+        "funcion": "Debate formal, votación, enmienda, procedimiento parlamentario",
+        "tipo_interaccion": "Institucional",
+        "coste_temporal": 4,
+        "nivel_riesgo": 2,
+        "clima_inicial": "nervioso",
+        "npcs_iniciales": [
+          "arguelles",
+          "munoz_torrero"
+        ],
+        "requerimientos": [
+          "ser_diputado"
+        ]
+      },
+      "muelles_aduana": {
+        "id": "muelles_aduana",
+        "nombre": "Muelles y Aduana",
+        "descripcion": "Nodo del comercio atlántico.",
+        "funcion": "Inteligencia comercial, favores financieros, espionaje",
+        "tipo_interaccion": "Económico",
+        "coste_temporal": 3,
+        "nivel_riesgo": 2,
+        "clima_inicial": "saturado",
+        "npcs_iniciales": [
+          "comerciante_1"
+        ],
+        "requerimientos": []
+      },
+      "calle_nueva_consulado": {
+        "id": "calle_nueva_consulado",
+        "nombre": "Calle Nueva y el Consulado",
+        "descripcion": "Centro financiero de Cádiz.",
+        "funcion": "Crédito, lobby, presión económica",
+        "tipo_interaccion": "Económico",
+        "coste_temporal": 3,
+        "nivel_riesgo": 2,
+        "clima_inicial": "vigilado",
+        "npcs_iniciales": [],
+        "requerimientos": []
+      }
+    }
+  },
+  "personajes": {
+    "npcs": {
+      "munoz_torrero": {
+        "id": "munoz_torrero",
+        "nombre": "Diego Muñoz Torrero",
+        "descripcion": "Estratega liberal. Menos visible que Argüelles pero igualmente influyente.",
+        "faccion": "liberal_progresista",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "jurista_abogado",
+        "adscripcion": "liberal_progresista",
+        "temperamento": "prudente",
+        "relacion_inicial": 5,
+        "confianza_inicial": 42,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "lectura_tecnica",
+            "nombre": "Lectura técnica",
+            "descripcion": "Analiza textos legales",
+            "escenas_determinantes": [
+              "comisiones"
+            ]
+          }
+        ],
+        "espacios": [
+          "oratorio_san_felipe_neri",
+          "comisiones_parlamentarias"
+        ]
+      },
+      "arguelles": {
+        "id": "arguelles",
+        "nombre": "Agustín Argüelles",
+        "descripcion": "Líder intelectual del grupo liberal progresista. Jurista brillante y orador elocuente.",
+        "faccion": "liberal_progresista",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "jurista_abogado",
+        "adscripcion": "liberal_progresista",
+        "temperamento": "retorico",
+        "relacion_inicial": -1,
+        "confianza_inicial": 35,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "lectura_tecnica",
+            "nombre": "Lectura técnica",
+            "descripcion": "Analiza textos legales",
+            "escenas_determinantes": [
+              "comisiones"
+            ]
+          }
+        ],
+        "espacios": [
+          "oratorio_san_felipe_neri",
+          "comisiones_parlamentarias"
+        ]
+      },
+      "comerciante_1": {
+        "id": "comerciante_1",
+        "nombre": "Juan Pérez de la Riva",
+        "descripcion": "Comerciante del Consulado. Tiene contactos en el comercio atlántico.",
+        "faccion": "liberal_moderado",
+        "origen": "gaditano",
+        "clase_social": "elite_mercantil_gaditana",
+        "oficio": "comerciante_agente_mercantil",
+        "adscripcion": "liberal_moderado",
+        "temperamento": "pragmatico",
+        "relacion_inicial": -2,
+        "confianza_inicial": 21,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "tasacion_favor",
+            "nombre": "Tasación de favor",
+            "descripcion": "Evalúa valor de compromisos",
+            "escenas_determinantes": [
+              "negociaciones"
+            ]
+          },
+          {
+            "id": "contacto_muelle",
+            "nombre": "Contacto de muelle",
+            "descripcion": "Información antes que la prensa",
+            "escenas_determinantes": [
+              "muelles"
+            ]
+          }
+        ],
+        "espacios": [
+          "muelles_aduana",
+          "calle_nueva_consulado"
+        ]
+      },
+      "periodista_1": {
+        "id": "periodista_1",
+        "nombre": "Manuel José Quintano",
+        "descripcion": "Periodista liberal. Escribe para el Semanario Patriótico.",
+        "faccion": "liberal_progresista",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "periodista_publicista",
+        "adscripcion": "liberal_progresista",
+        "temperamento": "esceptico",
+        "relacion_inicial": -2,
+        "confianza_inicial": 20,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "encargo_velado",
+            "nombre": "Encargo velado",
+            "descripcion": "Publica sin firma",
+            "escenas_determinantes": [
+              "imprentas"
+            ]
+          },
+          {
+            "id": "lectura_clima",
+            "nombre": "Lectura de clima",
+            "descripcion": "Evalúa impacto público",
+            "escenas_determinantes": [
+              "cafes"
+            ]
+          }
+        ],
+        "espacios": [
+          "cafe_apolo",
+          "imprentas_publicaciones"
+        ]
+      },
+      "ostolaza": {
+        "id": "ostolaza",
+        "nombre": "Fernando Ostolaza",
+        "descripcion": "Conservador intransigente. Defensor a ultranza del Antiguo Régimen.",
+        "faccion": "absolutista_servil",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "jurista_abogado",
+        "adscripcion": "absolutista_servil",
+        "temperamento": "esceptico",
+        "relacion_inicial": -6,
+        "confianza_inicial": 50,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "lectura_tecnica",
+            "nombre": "Lectura técnica",
+            "descripcion": "Analiza textos legales",
+            "escenas_determinantes": [
+              "comisiones"
+            ]
+          }
+        ],
+        "espacios": [
+          "oratorio_san_felipe_neri",
+          "comisiones_parlamentarias"
+        ]
+      },
+      "obispo_1": {
+        "id": "obispo_1",
+        "nombre": "Fray Francisco de Paula Sancha",
+        "descripcion": "Obispo de Cádiz. Representa la voz conservadora de la Iglesia.",
+        "faccion": "absolutista_servil",
+        "origen": "peninsular",
+        "clase_social": "clero_ilustrado",
+        "oficio": "clerigo_ilustrado",
+        "adscripcion": "absolutista_servil",
+        "temperamento": "retorico",
+        "relacion_inicial": 4,
+        "confianza_inicial": 34,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "autoridad_moral",
+            "nombre": "Autoridad moral",
+            "descripcion": "Posiciones difíciles de atacar",
+            "escenas_determinantes": [
+              "debates"
+            ]
+          },
+          {
+            "id": "red_confesional",
+            "nombre": "Red confesional",
+            "descripcion": "Información privada",
+            "escenas_determinantes": [
+              "investigaciones"
+            ]
+          }
+        ],
+        "espacios": [
+          "catedral_red_eclesiastica"
+        ]
+      },
+      "oficial_1": {
+        "id": "oficial_1",
+        "nombre": "Coronel Francisco Copons",
+        "descripcion": "Oficial del Ejército. Defensor de Cádiz durante el asedio.",
+        "faccion": "liberal_progresista",
+        "origen": "peninsular",
+        "clase_social": "carrera_militar",
+        "oficio": "oficial_ejercito",
+        "adscripcion": "liberal_progresista",
+        "temperamento": "retorico",
+        "relacion_inicial": 3,
+        "confianza_inicial": 24,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "analisis_tactico",
+            "nombre": "Análisis táctico",
+            "descripcion": "Evalúa partes militares",
+            "escenas_determinantes": [
+              "crisis_militares"
+            ]
+          }
+        ],
+        "espacios": [
+          "barrio_san_carlos_capitania"
+        ]
+      },
+      "martinez_rosa": {
+        "id": "martinez_rosa",
+        "nombre": "Francisco de Paula Martínez de la Rosa",
+        "descripcion": "El gran mediador entre facciones. Todos le necesitan, nadie le respeta del todo.",
+        "faccion": "liberal_moderado",
+        "origen": "peninsular",
+        "clase_social": "hidalguia_profesion_letrada",
+        "oficio": "jurista_abogado",
+        "adscripcion": "liberal_moderado",
+        "temperamento": "pragmatico",
+        "relacion_inicial": -4,
+        "confianza_inicial": 46,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "lectura_tecnica",
+            "nombre": "Lectura técnica",
+            "descripcion": "Analiza textos legales",
+            "escenas_determinantes": [
+              "comisiones"
+            ]
+          }
+        ],
+        "espacios": [
+          "oratorio_san_felipe_neri",
+          "comisiones_parlamentarias"
+        ]
+      },
+      "power": {
+        "id": "power",
+        "nombre": "José Miguel Power y Morante",
+        "descripcion": "Representante de Buenos Aires. Defensor de los intereses americanos.",
+        "faccion": "americanista",
+        "origen": "americano_virreinal",
+        "clase_social": "elite_criolla_americana",
+        "oficio": "jurista_abogado",
+        "adscripcion": "americanista",
+        "temperamento": "idealista",
+        "relacion_inicial": -2,
+        "confianza_inicial": 29,
+        "deuda_inicial": 0,
+        "habilidades": [
+          {
+            "id": "lectura_tecnica",
+            "nombre": "Lectura técnica",
+            "descripcion": "Analiza textos legales",
+            "escenas_determinantes": [
+              "comisiones"
+            ]
+          }
+        ],
+        "espacios": [
+          "oratorio_san_felipe_neri",
+          "comisiones_parlamentarias"
+        ]
+      }
+    }
+  },
+  "eventos": {
+    "eventos_fijos": [
+      {
+        "id": "trafalgar",
+        "nombre": "Batalla de Trafalgar",
+        "fecha": "1805-10-21",
+        "descripcion": "Derrota de la flota franco-española frente a Nelson.",
+        "impacto": "Aumento del aislamiento de Cádiz.",
+        "jornada": 0
+      },
+      {
+        "id": "inauguracion_cortes",
+        "nombre": "Inauguración de las Cortes",
+        "fecha": "1810-09-24",
+        "descripcion": "Primera sesión de las Cortes de Cádiz.",
+        "impacto": "Inicio del proceso constituyente.",
+        "jornada": 100
+      },
+      {
+        "id": "decreto_libertad_imprenta",
+        "nombre": "Decreto de libertad de imprenta",
+        "fecha": "1810-11-10",
+        "descripcion": "Las Cortes aprueban la libertad de imprenta.",
+        "impacto": "Explosión de periódicos y panfletos.",
+        "jornada": 120
+      },
+      {
+        "id": "promulgacion_la_pepa",
+        "nombre": "Promulgación de La Pepa",
+        "fecha": "1812-03-19",
+        "descripcion": "Se promulga la Constitución de 1812.",
+        "impacto": "Culmen del proceso constituyente.",
+        "jornada": 300
+      }
+    ],
+    "plantillas": {
+      "debate_articulo_constitucional": {
+        "id": "debate_articulo_constitucional",
+        "titulo": "Debate sobre artículo constitucional",
+        "tipo": "sesion_institucional",
+        "descripcion": "Las Cortes debaten un artículo clave de la nueva Constitución.",
+        "coste_temporal": 4,
+        "prioridad_base": 85,
+        "familias": [
+          "sesion_institucional",
+          "constitucion"
+        ],
+        "requerimientos": {
+          "ser_diputado": "true"
+        },
+        "consecuencias": {
+          "coherencia": 3,
+          "influencia": 5
+        },
+        "opciones": [
+          {
+            "id": "apoyar_liberal",
+            "texto": "Apoyar la posición liberal",
+            "modificador_perfil": 1.5,
+            "coste_adicional": 0,
+            "consecuencias": {
+              "reputacion_liberal_progresista": 15,
+              "reputacion_absolutista_servil": -10,
+              "coherencia": 5
+            },
+            "requerimientos": []
+          },
+          {
+            "id": "apoyar_moderado",
+            "texto": "Apoyar la posición moderada",
+            "modificador_perfil": 1.2,
+            "coste_adicional": 0,
+            "consecuencias": {
+              "reputacion_liberal_progresista": -5,
+              "coherencia": 3,
+              "reputacion_liberal_moderado": 12
+            },
+            "requerimientos": []
+          }
+        ]
+      },
+      "rumor_en_cafe": {
+        "id": "rumor_en_cafe",
+        "titulo": "Rumor en el café",
+        "tipo": "encuentro_urbano",
+        "descripcion": "En el café circula un rumor sobre un evento importante.",
+        "coste_temporal": 2,
+        "prioridad_base": 60,
+        "familias": [
+          "social",
+          "informacion"
+        ],
+        "requerimientos": {},
+        "consecuencias": {
+          "relacional": 2
+        },
+        "opciones": [
+          {
+            "id": "escuchar_atentamente",
+            "texto": "Escuchar atentamente",
+            "modificador_perfil": 1.0,
+            "coste_adicional": 0,
+            "consecuencias": {
+              "relacional": 3
+            },
+            "requerimientos": []
+          },
+          {
+            "id": "difundir_rumor",
+            "texto": "Difundir el rumor",
+            "modificador_perfil": 1.3,
+            "coste_adicional": 0,
+            "consecuencias": {
+              "relacional": 5,
+              "reputacion": -2
+            },
+            "requerimientos": []
+          }
+        ]
+      }
+    },
+    "familias": {
+      "social": [
+        "rumor_en_cafe"
+      ],
+      "sesion_institucional": [
+        "debate_articulo_constitucional"
+      ]
+    }
+  },
+  "perfil_inicial": {
+    "origen": "peninsular",
+    "clase_social": "hidalguia_profesion_letrada",
+    "oficio": "jurista_abogado",
+    "adscripcion": "liberal_progresista",
+    "temperamento": "prudente",
+    "compromisos": [
+      {
+        "id": "deuda_consulado",
+        "tipo": "material",
+        "descripcion": "Deuda con el Consulado de Cádiz",
+        "impacto": "Presión económica constante"
+      },
+      {
+        "id": "promesa_reforma",
+        "tipo": "emocional",
+        "descripcion": "Prometiste luchar por la abolición de la Inquisición",
+        "impacto": "Si no cumples, perderás reputación entre los liberales"
+      }
+    ]
+  },
+  "espacio_inicial": "cafe_apolo",
+  "presupuesto_temporal": 8
+}
