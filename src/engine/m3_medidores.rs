@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use super::m2_estado_protagonista::{EstadoProtagonista, Medidor, Reputacion};
+use super::m2_estado_protagonista::{EstadoProtagonista, Reputacion};
 
 /// Sistema de medidores (M3)
 #[derive(Debug, Clone)]

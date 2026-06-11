@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize};
-use std::collections::HashMap;
 
 /// Umbrales para los 6 medidores del protagonista
 #[derive(Debug, Clone, Serialize, Deserialize)]

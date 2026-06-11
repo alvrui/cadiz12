@@ -1,3 +1,3 @@
-pub mod gtk;
+pub mod slint;
 
-pub use gtk::*;
+pub use slint::*;

@@ -1,12 +1,11 @@
-use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
 use crate::config::{
     PartidaConfig, FaccionId, FaccionConfig, FaccionEstado, FaccionLider,
     EspacioId, EspacioConfig, ClimaEspacio,
     Origen, ClaseSocial, Oficio, Temperamento, AdscripcionPolitica,
-    PerfilProtagonista, Compromiso, NpcConfig, HabilidadNarrativa,
-    TipoEvento, FaseCrisis, EventoFijo, OpcionEvento, EventoPlantilla, EventosConfig,
-    MedidoresConfig, MedidorConfig,
+    PerfilProtagonista, NpcConfig, HabilidadNarrativa,
+    TipoEvento, EventoFijo, OpcionEvento, EventoPlantilla, EventosConfig,
+    MedidoresConfig,
 };
 use anyhow::{Result, Context};
 use rand::Rng;
@@ -14,6 +13,7 @@ use rand::Rng;
 /// Generador de configuraciones usando patrones predefinidos
 #[derive(Debug, Clone)]
 pub struct GeneradorConfig {
+    #[allow(dead_code)]
     cliente_mistral: Option<ClienteMistral>,
 }
 
@@ -246,7 +246,7 @@ impl GeneradorConfig {
     /// Generar personajes/NPCs
     pub fn generar_personajes(
         &self,
-        perfil_jugador: &PerfilProtagonista,
+        _perfil_jugador: &PerfilProtagonista,
     ) -> Result<crate::config::personajes::PersonajesConfig> {
         let mut npcs = HashMap::new();
         let mut rng = rand::thread_rng();
@@ -412,7 +412,7 @@ impl GeneradorConfig {
 
     /// Generar eventos
     pub fn generar_eventos(&self) -> Result<EventosConfig> {
-        let mut rng = rand::thread_rng();
+        let _rng = rand::thread_rng();
 
         let eventos_fijos = vec![
             EventoFijo { id: "trafalgar".to_string(), nombre: "Batalla de Trafalgar".to_string(), fecha: "1805-10-21".to_string(), descripcion: "Derrota de la flota franco-española frente a Nelson.".to_string(), impacto: "Aumento del aislamiento de Cádiz.".to_string(), jornada: 0 },
@@ -514,7 +514,7 @@ impl GeneradorConfig {
         medidores: &mut MedidoresConfig,
         perfil: &PerfilProtagonista,
     ) {
-        let mut rng = rand::thread_rng();
+        let _rng = rand::thread_rng();
 
         // Ajustar según origen
         match perfil.origen {

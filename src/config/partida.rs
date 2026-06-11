@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use super::{facciones::FaccionId, espacios::EspacioId, personajes::*, eventos::*};
+use super::espacios::EspacioId;
 
 /// Configuracion completa de una partida
 #[derive(Debug, Clone, Serialize, Deserialize)]

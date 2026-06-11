@@ -17,8 +17,10 @@ pub struct MemoriaSistema {
 #[derive(Debug, Clone)]
 struct EventoResuelto {
     pub evento_id: String,
+    #[allow(dead_code)]
     pub opcion_id: String,
     pub jornada: u32,
+    #[allow(dead_code)]
     pub timestamp: u64,
 }
 

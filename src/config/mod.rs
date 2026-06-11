@@ -6,8 +6,6 @@ pub mod textos;
 pub mod partida;
 pub mod medidores;
 
-use serde::{Serialize, Deserialize};
-use std::collections::HashMap;
 
 pub use facciones::*;
 pub use espacios::*;

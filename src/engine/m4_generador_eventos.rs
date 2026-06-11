@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use super::{
     m1_estado_mundo::EstadoMundo,
     m2_estado_protagonista::EstadoProtagonista,
@@ -78,7 +77,7 @@ impl GeneradorEventos {
     fn generar_eventos_crisis(
         &self,
         crisis: &super::m1_estado_mundo::CrisisActiva,
-        protagonista: &EstadoProtagonista,
+        _protagonista: &EstadoProtagonista,
     ) -> Vec<EventoDisponibleDto> {
         match crisis.fase {
             super::m1_estado_mundo::FaseCrisis::Estallido => {
