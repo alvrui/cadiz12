@@ -1,6 +1,6 @@
 use cadiz12::{
     config::PartidaConfig,
-    ui::terminal::ejecutar_juego,
+    ui::gtk::ejecutar_juego,
 };
 use std::path::Path;
 
