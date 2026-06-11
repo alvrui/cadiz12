@@ -1,3 +1,3 @@
-pub mod terminal;
+pub mod gtk;
 
-pub use terminal::*;
+pub use gtk::*;
