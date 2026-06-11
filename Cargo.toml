@@ -22,7 +22,7 @@ tokio = { version = "1.0", features = ["full"] }
 rand = "0.8"
 crossterm = "0.27"
 ratatui = "0.25"
-gtk4 = "0.18"
+gtk4 = { version = "0.11", features = ["v4_10"] }
 glib = "0.18"
 
 [dev-dependencies]
