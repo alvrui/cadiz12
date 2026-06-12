@@ -6,6 +6,7 @@ pub mod textos;
 pub mod partida;
 pub mod medidores;
 pub mod validacion;
+pub mod validacion_historica;
 
 
 pub use facciones::*;
@@ -16,3 +17,4 @@ pub use textos::*;
 pub use partida::*;
 pub use medidores::*;
 pub use validacion::*;
+pub use validacion_historica::*;
