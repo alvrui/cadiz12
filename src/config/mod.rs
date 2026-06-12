@@ -5,6 +5,7 @@ pub mod eventos;
 pub mod textos;
 pub mod partida;
 pub mod medidores;
+pub mod validacion;
 
 
 pub use facciones::*;
@@ -14,3 +15,4 @@ pub use eventos::*;
 pub use textos::*;
 pub use partida::*;
 pub use medidores::*;
+pub use validacion::*;

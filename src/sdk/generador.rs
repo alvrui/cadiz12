@@ -1,4 +1,8 @@
 use std::collections::HashMap;
+use std::path::PathBuf;
+use std::time::{SystemTime, UNIX_EPOCH};
+use serde::{Serialize, Deserialize};
+use md5::compute;
 use crate::config::{
     PartidaConfig, FaccionId, FaccionConfig, FaccionEstado, FaccionLider,
     EspacioId, EspacioConfig, ClimaEspacio,
@@ -10,22 +14,229 @@ use crate::config::{
 use anyhow::{Result, Context};
 use rand::Rng;
 
+/// Configuracion de inteligencia artificial para generacion de contenido
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConfiguracionIA {
+    /// Modelo de lenguaje a usar
+    pub modelo: ModeloIA,
+    /// Temperatura para generacion (0.0 a 2.0)
+    pub temperatura: f32,
+    /// Maximo de tokens a generar
+    pub max_tokens: u32,
+    /// Top-k sampling
+    pub top_k: Option<u32>,
+    /// Top-p sampling (nucleus)
+    pub top_p: Option<f32>,
+    /// Frecuencia penalty
+    pub frequency_penalty: Option<f32>,
+    /// Presencia penalty
+    pub presence_penalty: Option<f32>,
+    /// Numero de resultados a generar
+    pub n: u8,
+    /// Stop sequences
+    pub stop_sequences: Vec<String>,
+}
+
+impl Default for ConfiguracionIA {
+    fn default() -> Self {
+        Self {
+            modelo: ModeloIA::MistralSmall,
+            temperatura: 0.7,
+            max_tokens: 1024,
+            top_k: None,
+            top_p: None,
+            frequency_penalty: None,
+            presence_penalty: None,
+            n: 1,
+            stop_sequences: vec!["\n\n".to_string(), "<|im_end|>".to_string()],
+        }
+    }
+}
+
+/// Modelo de IA disponible
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum ModeloIA {
+    /// Mistral 7B
+    Mistral7B,
+    /// Mistral Small
+    MistralSmall,
+    /// Mistral Large
+    MistralLarge,
+    /// OpenAI GPT-3.5
+    Gpt35Turbo,
+    /// OpenAI GPT-4
+    Gpt4,
+    /// Local LLaMA
+    Llama2,
+    /// Local CodeLLaMA
+    CodeLlama,
+}
+
+impl Default for ModeloIA {
+    fn default() -> Self {
+        Self::MistralSmall
+    }
+}
+
+impl std::fmt::Display for ModeloIA {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Mistral7B => write!(f, "mistral-7b"),
+            Self::MistralSmall => write!(f, "mistral-small"),
+            Self::MistralLarge => write!(f, "mistral-large"),
+            Self::Gpt35Turbo => write!(f, "gpt-3.5-turbo"),
+            Self::Gpt4 => write!(f, "gpt-4"),
+            Self::Llama2 => write!(f, "llama2"),
+            Self::CodeLlama => write!(f, "codellama"),
+        }
+    }
+}
+
+/// Cache de generacion para evitar calls redundantes a la API
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CacheGeneracion {
+    /// Directorio de cache
+    pub directorio: PathBuf,
+    /// Tiempo de expiracion en segundos (default: 86400 = 24 horas)
+    pub ttl_segundos: u64,
+    /// Tamano maximo del cache en MB
+    pub max_tamano_mb: usize,
+    /// Habilitar cache
+    pub habilitado: bool,
+}
+
+impl Default for CacheGeneracion {
+    fn default() -> Self {
+        Self {
+            directorio: PathBuf::from(".cache/ia"),
+            ttl_segundos: 86400, // 24 horas
+            max_tamano_mb: 100,
+            habilitado: true,
+        }
+    }
+}
+
+impl CacheGeneracion {
+    pub fn nuevo(directorio: &str) -> Self {
+        Self {
+            directorio: PathBuf::from(directorio),
+            ..Default::default()
+        }
+    }
+
+    pub fn con_ttl(mut self, horas: u64) -> Self {
+        self.ttl_segundos = horas * 3600;
+        self
+    }
+
+    pub fn con_tamano_max(mut self, mb: usize) -> Self {
+        self.max_tamano_mb = mb;
+        self
+    }
+
+    /// Generar clave de cache para una peticion
+    pub fn generar_clave(&self, prompt: &str, configuracion: &ConfiguracionIA) -> String {
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs();
+        
+        let hash = compute(prompt.as_bytes());
+        
+        format!(
+            "{}_{}_{}_{:x}",
+            timestamp / self.ttl_segundos,
+            configuracion.modelo,
+            configuracion.temperatura,
+            hash
+        )
+    }
+}
+
+/// Estado del cache de generacion
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EstadoCache {
+    pub entradas: usize,
+    pub tamano_bytes: usize,
+    pub tiempo_ultima_limpieza: u64,
+}
+
 /// Generador de configuraciones usando patrones predefinidos
 #[derive(Debug, Clone)]
 pub struct GeneradorConfig {
+    /// Configuracion de IA para generacion
+    pub configuracion_ia: Option<ConfiguracionIA>,
+    /// Cache de generacion
+    pub cache: CacheGeneracion,
     #[allow(dead_code)]
     cliente_mistral: Option<ClienteMistral>,
 }
 
+impl Default for GeneradorConfig {
+    fn default() -> Self {
+        Self {
+            configuracion_ia: None,
+            cache: CacheGeneracion::default(),
+            cliente_mistral: None,
+        }
+    }
+}
+
 impl GeneradorConfig {
     pub fn nuevo() -> Self {
-        Self { cliente_mistral: None }
+        Self::default()
     }
 
     pub fn con_mistral(api_key: String) -> Self {
         Self {
             cliente_mistral: Some(ClienteMistral::nuevo(api_key)),
+            ..Default::default()
         }
+    }
+
+    /// Configurar IA con configuracion personalizada
+    pub fn con_ia(mut self, configuracion: ConfiguracionIA) -> Self {
+        self.configuracion_ia = Some(configuracion);
+        self
+    }
+
+    /// Configurar cache
+    pub fn con_cache(mut self, cache: CacheGeneracion) -> Self {
+        self.cache = cache;
+        self
+    }
+
+    /// Configurar con IA y cache
+    pub fn con_ia_y_cache(api_key: String, configuracion: ConfiguracionIA, cache: CacheGeneracion) -> Self {
+        Self {
+            cliente_mistral: Some(ClienteMistral::nuevo(api_key)),
+            configuracion_ia: Some(configuracion),
+            cache,
+        }
+    }
+
+    /// Obtener configuracion de IA o default
+    pub fn obtener_configuracion_ia(&self) -> ConfiguracionIA {
+        self.configuracion_ia.clone().unwrap_or_default()
+    }
+
+    /// Validar configuracion
+    pub fn validar(&self) -> Result<(), String> {
+        if let Some(ref ia) = self.configuracion_ia {
+            if ia.temperatura < 0.0 || ia.temperatura > 2.0 {
+                return Err("Temperatura debe estar entre 0.0 y 2.0".to_string());
+            }
+            if ia.max_tokens == 0 {
+                return Err("max_tokens debe ser mayor que 0".to_string());
+            }
+            if ia.n == 0 {
+                return Err("n debe ser mayor que 0".to_string());
+            }
+        }
+        if self.cache.habilitado && self.cache.directorio.to_string_lossy().is_empty() {
+            return Err("El directorio de cache no puede estar vacio".to_string());
+        }
+        Ok(())
     }
 
     /// Generar una configuración de partida completa
@@ -49,6 +260,9 @@ impl GeneradorConfig {
             perfil_inicial: perfil.clone(),
             espacio_inicial: EspacioId::CafeApolo,
             presupuesto_temporal: 8,
+            preferencias: crate::config::PreferenciasJuego::default(),
+            progresion: crate::config::ConfiguracionProgresion::default(),
+            contexto_inicial: crate::config::ContextoHistorico::default(),
         };
 
         // Ajustar medidores según perfil
