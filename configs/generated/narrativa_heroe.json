@@ -1,0 +1,201 @@
+{
+  "metadatos": {
+    "id": "narrativa_2",
+    "titulo": "Viaje del Héroe",
+    "descripcion": "Viaje del héroe: de aprendiz a líder",
+    "tipo_plantilla": "HeroesJourney",
+    "dificultad": 6,
+    "tags": [],
+    "facciones_involucradas": [],
+    "espacios_relacionados": [],
+    "estilo_recomendado": "Equilibrado",
+    "autor": "Sistema",
+    "fecha_creacion": 1781281881
+  },
+  "cadena_principal": {
+    "id": "cadena_principal",
+    "eventos": [
+      {
+        "id": "inicio",
+        "titulo": "Llamado a la Aventura",
+        "descripcion": "El personaje recibe el llamado",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Aceptar el desafío",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "El personaje acepta el desafío",
+              "impacto_medidores": {
+                "reputacion": 10,
+                "influencia": 5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 5,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          },
+          {
+            "id": "opcion_2",
+            "texto": "Rechazar el desafío",
+            "consecuencia": {
+              "id": "consecuencia_2",
+              "descripcion": "El personaje rechaza el desafío",
+              "impacto_medidores": {
+                "influencia": -3,
+                "reputacion": -5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": -5,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_1",
+        "titulo": "Pruebas y Aliados",
+        "descripcion": "El personaje enfrenta pruebas y encuentra aliados",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Enfrentar directamente",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "Resolución por confrontación",
+              "impacto_medidores": {
+                "relacional": -8,
+                "coherencia": 10
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": -15,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          },
+          {
+            "id": "opcion_2",
+            "texto": "Buscar mediación",
+            "consecuencia": {
+              "id": "consecuencia_2",
+              "descripcion": "Resolución por diálogo",
+              "impacto_medidores": {
+                "coherencia": 5,
+                "relacional": 10
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 10,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_2",
+        "titulo": "Enfrentamiento Final",
+        "descripcion": "El personaje se enfrenta al villano o desafío final",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Tomar la decisión difícil",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "Decisión con alto impacto moral",
+              "impacto_medidores": {
+                "influencia": 20,
+                "coherencia": -5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 25,
+              "es_final": true
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_3",
+        "titulo": "Retorno",
+        "descripcion": "El personaje regresa transformado",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Continuar",
+            "consecuencia": {
+              "id": "consecuencia_final",
+              "descripcion": "Narrativa concluida satisfactoriamente",
+              "impacto_medidores": {
+                "recursos": 5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 0,
+              "es_final": true
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      }
+    ],
+    "evento_inicial": "inicio",
+    "eventos_finales": [],
+    "longitud_maxima": null
+  },
+  "cadenas_alternativas": [],
+  "personajes": [],
+  "objetos": []
+}

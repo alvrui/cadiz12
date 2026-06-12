@@ -1,0 +1,220 @@
+{
+  "metadatos": {
+    "id": "narrativa_1",
+    "titulo": "Dilema Moral",
+    "descripcion": "Un dilema moral en la Cádiz de 1812: elección entre lealtad a la patria y lealtad a la familia",
+    "tipo_plantilla": "DilemaMoral",
+    "dificultad": 7,
+    "tags": [
+      "dilema",
+      "moral",
+      "lealtad",
+      "familia",
+      "patria"
+    ],
+    "facciones_involucradas": [
+      "liberal_progresista",
+      "absolutista_servil"
+    ],
+    "espacios_relacionados": [
+      "cafe_apolo",
+      "salones_teatros_tertulias"
+    ],
+    "estilo_recomendado": "Detallado",
+    "autor": "Sistema",
+    "fecha_creacion": 1781281881
+  },
+  "cadena_principal": {
+    "id": "cadena_principal",
+    "eventos": [
+      {
+        "id": "inicio",
+        "titulo": "Presentación del Dilema",
+        "descripcion": "Se plantea la situación moral",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Aceptar el desafío",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "El personaje acepta el desafío",
+              "impacto_medidores": {
+                "reputacion": 10,
+                "influencia": 5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 5,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          },
+          {
+            "id": "opcion_2",
+            "texto": "Rechazar el desafío",
+            "consecuencia": {
+              "id": "consecuencia_2",
+              "descripcion": "El personaje rechaza el desafío",
+              "impacto_medidores": {
+                "reputacion": -5,
+                "influencia": -3
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": -5,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_1",
+        "titulo": "Análisis de Opciones",
+        "descripcion": "Se exploran las consecuencias de cada opción",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Enfrentar directamente",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "Resolución por confrontación",
+              "impacto_medidores": {
+                "coherencia": 10,
+                "relacional": -8
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": -15,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          },
+          {
+            "id": "opcion_2",
+            "texto": "Buscar mediación",
+            "consecuencia": {
+              "id": "consecuencia_2",
+              "descripcion": "Resolución por diálogo",
+              "impacto_medidores": {
+                "relacional": 10,
+                "coherencia": 5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 10,
+              "es_final": false
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_2",
+        "titulo": "Decisión",
+        "descripcion": "El personaje elige una opción",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Tomar la decisión difícil",
+            "consecuencia": {
+              "id": "consecuencia_1",
+              "descripcion": "Decisión con alto impacto moral",
+              "impacto_medidores": {
+                "influencia": 20,
+                "coherencia": -5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 25,
+              "es_final": true
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": false
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      },
+      {
+        "id": "evento_3",
+        "titulo": "Consecuencias",
+        "descripcion": "Se revelan las consecuencias de la decisión",
+        "opciones": [
+          {
+            "id": "opcion_1",
+            "texto": "Continuar",
+            "consecuencia": {
+              "id": "consecuencia_final",
+              "descripcion": "Narrativa concluida satisfactoriamente",
+              "impacto_medidores": {
+                "recursos": 5
+              },
+              "eventos_desbloqueados": [],
+              "eventos_bloqueados": [],
+              "cambio_relaciones": {},
+              "reputacion": {},
+              "recursos": {},
+              "puntuacion_moral": 0,
+              "es_final": true
+            },
+            "peso": 50,
+            "requisitos": [],
+            "recomendada": true
+          }
+        ],
+        "evento_anterior": null,
+        "eventos_siguientes": [],
+        "metadatos": {},
+        "es_decision_critica": false
+      }
+    ],
+    "evento_inicial": "inicio",
+    "eventos_finales": [],
+    "longitud_maxima": null
+  },
+  "cadenas_alternativas": [],
+  "personajes": [
+    "Protagonista",
+    "Hermano del Protagonista",
+    "Líder Liberal"
+  ],
+  "objetos": [
+    "Carta de lealtad",
+    "Sello real"
+  ]
+}
