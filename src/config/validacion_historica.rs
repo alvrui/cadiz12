@@ -525,6 +525,7 @@ impl ConfiguracionEquilibrio {
 }
 
 /// Auditor de equilibrio de facciones
+#[derive(Debug, Clone)]
 pub struct AuditorEquilibrio {
     configuracion: ConfiguracionEquilibrio,
 }

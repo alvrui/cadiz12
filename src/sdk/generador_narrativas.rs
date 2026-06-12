@@ -733,6 +733,7 @@ impl PasoPlantilla {
 }
 
 /// Generador de narrativas usando IA
+#[derive(Debug, Clone)]
 pub struct GeneradorNarrativas {
     /// Configuración de IA
     configuracion_ia: ConfiguracionIA,

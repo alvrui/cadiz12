@@ -365,6 +365,7 @@ impl Default for ConfiguracionPlaceholder {
 }
 
 /// Cache de imágenes para evitar regeneración
+#[derive(Debug, Clone)]
 pub struct CacheImagenes {
     /// Directorio base para almacenar imágenes
     pub directorio: std::path::PathBuf,

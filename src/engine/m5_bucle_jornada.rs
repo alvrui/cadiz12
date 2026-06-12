@@ -6,6 +6,7 @@ use super::{
     m6_memoria::MemoriaSistema,
     dtos::{EstadoJornadaDto, TiempoDto},
 };
+use crate::sdk::generador_dinamico::{GeneradorDinamico, ContextoJuego};
 
 /// Bucle de jornada (M5)
 #[derive(Debug, Clone)]
@@ -13,17 +14,20 @@ pub struct BucleJornada {
     pub generador_eventos: GeneradorEventos,
     pub sistema_medidores: SistemaMedidores,
     pub memoria: MemoriaSistema,
+    pub generador_dinamico: GeneradorDinamico,
 }
 
 impl BucleJornada {
     pub fn nuevo(
         config_eventos: crate::config::EventosConfig,
         _config_medidores: crate::config::MedidoresConfig,
+        config_partida: crate::config::PartidaConfig,
     ) -> Self {
         Self {
             generador_eventos: GeneradorEventos::nuevo(config_eventos),
             sistema_medidores: SistemaMedidores,
             memoria: MemoriaSistema::nueva(),
+            generador_dinamico: GeneradorDinamico::nuevo(config_partida),
         }
     }
 
@@ -48,11 +52,28 @@ impl BucleJornada {
         self.memoria.limpiar_cooldowns(mundo.jornada_absoluta);
 
         // 5. Generar eventos disponibles
-        let eventos_disponibles = self.generador_eventos.generar_eventos(
+        let mut eventos_disponibles = self.generador_eventos.generar_eventos(
             mundo,
             protagonista,
             config.presupuesto_temporal,
         );
+
+        // 5.5. Solicitar evento dinámico basado en el contexto del juego
+        let contexto = ContextoJuego::nuevo(mundo, mundo.jornada_absoluta, eventos_disponibles.iter().map(|e| e.evento_id.clone()).collect());
+        if let Some(evento_dinamico) = self.generador_dinamico.solicitar_evento_dinamico(&contexto) {
+            if self.generador_dinamico.validar_evento_dinamico(&evento_dinamico, &contexto) {
+                // Convertir EventoNarrativo a EventoDisponibleDto
+                let evento_dto = super::dtos::EventoDisponibleDto {
+                    evento_id: evento_dinamico.id.clone(),
+                    titulo: evento_dinamico.titulo.clone(),
+                    tipo: "dinamico".to_string(),
+                    coste_temporal: 3,
+                    prioridad: 80,
+                    modificador_perfil: 1.0,
+                };
+                eventos_disponibles.push(evento_dto);
+            }
+        }
 
         // 6. Crear DTO de estado
         EstadoJornadaDto {

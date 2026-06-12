@@ -23,7 +23,7 @@ impl MotorApi {
         Self {
             mundo,
             protagonista,
-            bucle: BucleJornada::nuevo(config.eventos.clone(), config.medidores.clone()),
+            bucle: BucleJornada::nuevo(config.eventos.clone(), config.medidores.clone(), config.clone()),
             config,
         }
     }
