@@ -1,9 +1,14 @@
 [package]
 name = "cadiz12"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Alvaro <alvaro@example.com>"]
 description = "Motor de juego narrativo-político: Cádiz 1812"
+license = "MIT"
+repository = "https://github.com/alvrui/cadiz12"
+homepage = "https://github.com/alvrui/cadiz12"
+keywords = ["game", "historical", "rust", "narrative"]
+categories = ["command-line-utilities", "games"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
