@@ -14,7 +14,7 @@ fn main() {
     let mut motor = Motor::nuevo(config);
     
     // Simular 10 jornadas
-    for i in 0..10 {
+    for _ in 0..10 {
         let estado = motor.api.estado_jornada();
         
         println!("--- Jornada {} (Acto {}) ---", estado.tiempo.jornada, estado.tiempo.acto);

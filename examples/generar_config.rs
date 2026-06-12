@@ -66,7 +66,6 @@ async fn main() -> anyhow::Result<()> {
         println!("\nGenerando personaje con Mistral API...");
         
         use cadiz12::config::{FaccionId, Oficio};
-        use cadiz12::sdk::GeneradorConfig;
         
         // Crear cliente Mistral directamente para el ejemplo
         use cadiz12::sdk::ClienteMistral;
