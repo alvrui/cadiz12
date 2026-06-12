@@ -268,6 +268,9 @@ pub struct EventoNarrativo {
     pub metadatos: HashMap<String, String>,
     /// Indica si es un punto de decisión crítica
     pub es_decision_critica: bool,
+    /// Recursos visuales asociados al evento
+    #[serde(default)]
+    pub recursos_visuales: Option<super::recursos_visuales::EventoVisual>,
 }
 
 impl EventoNarrativo {
@@ -281,6 +284,7 @@ impl EventoNarrativo {
             eventos_siguientes: vec![],
             metadatos: HashMap::new(),
             es_decision_critica: false,
+            recursos_visuales: None,
         }
     }
 
@@ -311,6 +315,21 @@ impl EventoNarrativo {
 
     pub fn como_decision_critica(mut self) -> Self {
         self.es_decision_critica = true;
+        self
+    }
+
+    /// Asignar recursos visuales por defecto al evento
+    pub fn con_recursos_visuales_por_defecto(mut self, titulo: &str, descripcion: &str) -> Self {
+        use super::recursos_visuales::EventoVisual;
+        
+        let evento_visual = EventoVisual::nuevo(&self.id, titulo, descripcion);
+        self.recursos_visuales = Some(evento_visual);
+        self
+    }
+
+    /// Asignar recursos visuales específicos
+    pub fn con_recursos_visuales(mut self, recursos: super::recursos_visuales::EventoVisual) -> Self {
+        self.recursos_visuales = Some(recursos);
         self
     }
 
@@ -595,7 +614,10 @@ impl PlantillaGuion {
             // Generar opciones basadas en el tipo de paso
             let opciones = self.generar_opciones_paso(paso, &evento_id);
             
-            let evento = evento.con_opciones(opciones);
+            // Asignar recursos visuales por defecto
+            let evento = evento
+                .con_opciones(opciones)
+                .con_recursos_visuales_por_defecto(&paso.nombre, &paso.descripcion);
             cadena = cadena.con_evento(evento);
         }
         

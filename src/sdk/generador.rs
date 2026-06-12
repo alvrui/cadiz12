@@ -629,10 +629,10 @@ impl GeneradorConfig {
         let _rng = rand::thread_rng();
 
         let eventos_fijos = vec![
-            EventoFijo { id: "trafalgar".to_string(), nombre: "Batalla de Trafalgar".to_string(), fecha: "1805-10-21".to_string(), descripcion: "Derrota de la flota franco-española frente a Nelson.".to_string(), impacto: "Aumento del aislamiento de Cádiz.".to_string(), jornada: 0 },
-            EventoFijo { id: "inauguracion_cortes".to_string(), nombre: "Inauguración de las Cortes".to_string(), fecha: "1810-09-24".to_string(), descripcion: "Primera sesión de las Cortes de Cádiz.".to_string(), impacto: "Inicio del proceso constituyente.".to_string(), jornada: 100 },
-            EventoFijo { id: "decreto_libertad_imprenta".to_string(), nombre: "Decreto de libertad de imprenta".to_string(), fecha: "1810-11-10".to_string(), descripcion: "Las Cortes aprueban la libertad de imprenta.".to_string(), impacto: "Explosión de periódicos y panfletos.".to_string(), jornada: 120 },
-            EventoFijo { id: "promulgacion_la_pepa".to_string(), nombre: "Promulgación de La Pepa".to_string(), fecha: "1812-03-19".to_string(), descripcion: "Se promulga la Constitución de 1812.".to_string(), impacto: "Culmen del proceso constituyente.".to_string(), jornada: 300 },
+            EventoFijo { id: "trafalgar".to_string(), nombre: "Batalla de Trafalgar".to_string(), fecha: "1805-10-21".to_string(), descripcion: "Derrota de la flota franco-española frente a Nelson.".to_string(), impacto: "Aumento del aislamiento de Cádiz.".to_string(), jornada: 0, recursos_visuales: None },
+            EventoFijo { id: "inauguracion_cortes".to_string(), nombre: "Inauguración de las Cortes".to_string(), fecha: "1810-09-24".to_string(), descripcion: "Primera sesión de las Cortes de Cádiz.".to_string(), impacto: "Inicio del proceso constituyente.".to_string(), jornada: 100, recursos_visuales: None },
+            EventoFijo { id: "decreto_libertad_imprenta".to_string(), nombre: "Decreto de libertad de imprenta".to_string(), fecha: "1810-11-10".to_string(), descripcion: "Las Cortes aprueban la libertad de imprenta.".to_string(), impacto: "Explosión de periódicos y panfletos.".to_string(), jornada: 120, recursos_visuales: None },
+            EventoFijo { id: "promulgacion_la_pepa".to_string(), nombre: "Promulgación de La Pepa".to_string(), fecha: "1812-03-19".to_string(), descripcion: "Se promulga la Constitución de 1812.".to_string(), impacto: "Culmen del proceso constituyente.".to_string(), jornada: 300, recursos_visuales: None },
         ];
 
         let mut plantillas = HashMap::new();
@@ -674,6 +674,7 @@ impl GeneradorConfig {
                     requerimientos: vec![],
                 },
             ],
+            recursos_visuales: None,
         });
 
         // Plantilla: Rumor en café
@@ -708,6 +709,7 @@ impl GeneradorConfig {
                     requerimientos: vec![],
                 },
             ],
+            recursos_visuales: None,
         });
 
         let familias = HashMap::from([

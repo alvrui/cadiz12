@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
+use crate::sdk::recursos_visuales::EventoVisual;
 
 /// Tipo de evento
 #[derive(Debug, Clone, PartialEq)]
@@ -78,6 +79,9 @@ pub struct EventoFijo {
     pub impacto: String,
     /// Jornadas desde el inicio
     pub jornada: u32,
+    /// Recursos visuales asociados al evento
+    #[serde(default)]
+    pub recursos_visuales: Option<EventoVisual>,
 }
 
 /// Plantilla de evento generado
@@ -99,6 +103,9 @@ pub struct EventoPlantilla {
     pub consecuencias: HashMap<String, i16>,
     /// Opciones disponibles
     pub opciones: Vec<OpcionEvento>,
+    /// Recursos visuales asociados al evento
+    #[serde(default)]
+    pub recursos_visuales: Option<EventoVisual>,
 }
 
 /// Opcion de respuesta a un evento
@@ -174,6 +181,7 @@ impl Default for EventosConfig {
                     requerimientos: vec!["oficio_jurista".to_string()],
                 },
             ],
+            recursos_visuales: None,
         });
 
         Self {
@@ -185,6 +193,7 @@ impl Default for EventosConfig {
                     descripcion: "Derrota de la flota franco-espanola".to_string(),
                     impacto: "Aumento del aislamiento de Cadiz".to_string(),
                     jornada: 0,
+                    recursos_visuales: None,
                 },
                 EventoFijo {
                     id: "inauguracion_cortes".to_string(),
@@ -193,6 +202,7 @@ impl Default for EventosConfig {
                     descripcion: "Primera sesion de las Cortes de Cadiz".to_string(),
                     impacto: "Inicio del proceso constituyente".to_string(),
                     jornada: 100,
+                    recursos_visuales: None,
                 },
             ],
             plantillas,

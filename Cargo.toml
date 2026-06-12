@@ -47,3 +47,7 @@ path = "examples/generar_config.rs"
 [[example]]
 name = "terminal_game"
 path = "examples/terminal_game.rs"
+
+[[example]]
+name = "visualizar_evento"
+path = "examples/visualizar_evento.rs"
