@@ -1,6 +1,18 @@
 use slint::SharedString;
 use std::sync::{Arc, Mutex};
+use std::cell::RefCell;
 use crate::{config::PartidaConfig, engine::Motor, engine::dtos::EstadoJornadaDto};
+
+// Global state for motor and UI handle
+thread_local! {
+    static UI_STATE: RefCell<Option<GameWindowState>> = RefCell::new(None);
+}
+
+#[derive(Clone)]
+pub struct GameWindowState {
+    pub motor: Arc<Mutex<Motor>>,
+    pub handle: slint::Weak<GameWindow>,
+}
 
 slint::slint! {
     import { Button, VerticalBox, HorizontalBox, ScrollView, LineEdit } from "std-widgets.slint";
@@ -16,7 +28,7 @@ slint::slint! {
         in-out property <string> presupuesto-text;
         in-out property <string> mensaje-text;
 
-        // Propiedades para medidores (máximo 5)
+        // Propiedades para medidores (maximo 5)
         in-out property <string> medidor-0-nombre;
         in-out property <string> medidor-0-valor;
         in-out property <string> medidor-0-tendencia;
@@ -38,7 +50,7 @@ slint::slint! {
         in-out property <string> medidor-4-tendencia;
         in-out property <string> medidor-4-umbrales;
 
-        // Propiedades para eventos (máximo 10)
+        // Propiedades para eventos (maximo 10)
         in-out property <string> evento-0-titulo;
         in-out property <string> evento-1-titulo;
         in-out property <string> evento-2-titulo;
@@ -50,9 +62,12 @@ slint::slint! {
         in-out property <string> evento-8-titulo;
         in-out property <string> evento-9-titulo;
 
-        // Propiedades para selección
+        // Propiedades para seleccion
         in-out property <int> selected-event;
         in-out property <int> selected-option;
+        
+        // Callback para resolver eventos
+        callback resolve-event-callback(int, int);
 
         VerticalBox {
             width: 100%;
@@ -72,7 +87,7 @@ slint::slint! {
                     padding-right: 20px;
 
                     Text {
-                        text: "CÁDIZ 1812";
+                        text: "CADIZ 1812";
                         font-size: 28px;
                         font-weight: 700;
                     }
@@ -225,52 +240,92 @@ slint::slint! {
                                 Button {
                                     text: evento-0-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 0; }
+                                    clicked => { 
+                                        root.selected-event = 0;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 0 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-1-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 1; }
+                                    clicked => { 
+                                        root.selected-event = 1;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 1 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-2-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 2; }
+                                    clicked => { 
+                                        root.selected-event = 2;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 2 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-3-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 3; }
+                                    clicked => { 
+                                        root.selected-event = 3;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 3 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-4-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 4; }
+                                    clicked => { 
+                                        root.selected-event = 4;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 4 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-5-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 5; }
+                                    clicked => { 
+                                        root.selected-event = 5;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 5 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-6-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 6; }
+                                    clicked => { 
+                                        root.selected-event = 6;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 6 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-7-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 7; }
+                                    clicked => { 
+                                        root.selected-event = 7;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 7 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-8-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 8; }
+                                    clicked => { 
+                                        root.selected-event = 8;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 8 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                                 Button {
                                     text: evento-9-titulo;
                                     width: 100%;
-                                    clicked => { root.selected-event = 9; }
+                                    clicked => { 
+                                        root.selected-event = 9;
+                                        root.selected-option = -1;
+                                        root.mensaje-text = "Evento 9 seleccionado. Elija opcion (1-9)";
+                                    }
                                 }
                             }
                         }
@@ -285,7 +340,7 @@ slint::slint! {
                 background: #0f3460;
             }
 
-            // Footer con botones de opción 1-9
+            // Footer con botones de opcion 1-9
             Rectangle {
                 width: 100%;
                 height: 80px;
@@ -312,47 +367,92 @@ slint::slint! {
                         Button {
                             text: "1";
                             width: 40px;
-                            clicked => { root.selected-option = 1; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 1;
+                                    resolve-event-callback(root.selected-event, 1);
+                                }
+                            }
                         }
                         Button {
                             text: "2";
                             width: 40px;
-                            clicked => { root.selected-option = 2; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 2;
+                                    resolve-event-callback(root.selected-event, 2);
+                                }
+                            }
                         }
                         Button {
                             text: "3";
                             width: 40px;
-                            clicked => { root.selected-option = 3; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 3;
+                                    resolve-event-callback(root.selected-event, 3);
+                                }
+                            }
                         }
                         Button {
                             text: "4";
                             width: 40px;
-                            clicked => { root.selected-option = 4; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 4;
+                                    resolve-event-callback(root.selected-event, 4);
+                                }
+                            }
                         }
                         Button {
                             text: "5";
                             width: 40px;
-                            clicked => { root.selected-option = 5; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 5;
+                                    resolve-event-callback(root.selected-event, 5);
+                                }
+                            }
                         }
                         Button {
                             text: "6";
                             width: 40px;
-                            clicked => { root.selected-option = 6; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 6;
+                                    resolve-event-callback(root.selected-event, 6);
+                                }
+                            }
                         }
                         Button {
                             text: "7";
                             width: 40px;
-                            clicked => { root.selected-option = 7; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 7;
+                                    resolve-event-callback(root.selected-event, 7);
+                                }
+                            }
                         }
                         Button {
                             text: "8";
                             width: 40px;
-                            clicked => { root.selected-option = 8; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 8;
+                                    resolve-event-callback(root.selected-event, 8);
+                                }
+                            }
                         }
                         Button {
                             text: "9";
                             width: 40px;
-                            clicked => { root.selected-option = 9; }
+                            clicked => { 
+                                if (root.selected-event >= 0) {
+                                    root.selected-option = 9;
+                                    resolve-event-callback(root.selected-event, 9);
+                                }
+                            }
                         }
                     }
                 }
@@ -369,6 +469,25 @@ pub fn ejecutar_juego(config: PartidaConfig) -> anyhow::Result<()> {
     };
 
     let ui = GameWindow::new()?;
+    
+    // Store motor and UI handle in thread-local state
+    let ui_state = GameWindowState {
+        motor: Arc::clone(&motor),
+        handle: ui.as_weak(),
+    };
+    
+    UI_STATE.with(|state| {
+        *state.borrow_mut() = Some(ui_state);
+    });
+    
+    // Register the callback for resolving events
+    let ui_handle = ui.as_weak();
+    ui.on_resolve_event_callback(move |event_index, option_index| {
+        if let Some(handle) = ui_handle.upgrade() {
+            resolve_event_callback(event_index, option_index, handle);
+        }
+    });
+    
     actualizar_ui(&ui, &estado);
     ui.run()?;
     Ok(())
@@ -379,7 +498,9 @@ fn actualizar_ui(ui: &GameWindow, estado: &EstadoJornadaDto) {
     ui.set_acto_text(SharedString::from(estado.tiempo.acto.to_string()));
     ui.set_tramo_text(SharedString::from(estado.tiempo.tramo_id.clone()));
     ui.set_presupuesto_text(SharedString::from(format!("{}/{}", estado.presupuesto_temporal, estado.presupuesto_temporal)));
-    ui.set_mensaje_text(SharedString::from("Seleccione un evento y luego una opción (1-9)".to_string()));
+    ui.set_mensaje_text(SharedString::from("Seleccione un evento y luego una opcion (1-9)".to_string()));
+    ui.set_selected_event(-1);
+    ui.set_selected_option(-1);
 
     // Actualizar medidores (hasta 5)
     for (i, m) in estado.protagonista.medidores.iter().take(5).enumerate() {
@@ -464,6 +585,60 @@ fn actualizar_ui(ui: &GameWindow, estado: &EstadoJornadaDto) {
                 8 => ui.set_evento_8_titulo(SharedString::from("")),
                 9 => ui.set_evento_9_titulo(SharedString::from("")),
                 _ => {}
+            }
+        }
+    }
+}
+
+/// Callback para resolver un evento, invocado desde Slint
+fn resolve_event_callback(event_index: i32, option_index: i32, ui: GameWindow) {
+    // Obtener estado global
+    let state = UI_STATE.with(|s| s.borrow().clone());
+    
+    if let Some(state) = state {
+        // Validar indices
+        if event_index < 0 || event_index > 9 || option_index < 1 || option_index > 9 {
+            ui.set_mensaje_text(SharedString::from("Error: Seleccion invalida".to_string()));
+            return;
+        }
+
+        // Obtener estado actual para obtener el evento_id
+        let evento_id = {
+            let mut motor = state.motor.lock().unwrap();
+            let estado = motor.api.estado_jornada();
+            
+            // Obtener evento_id del evento seleccionado
+            if event_index as usize >= estado.eventos_disponibles.len() {
+                ui.set_mensaje_text(SharedString::from("Error: Indice de evento invalido".to_string()));
+                return;
+            }
+            estado.eventos_disponibles[event_index as usize].evento_id.clone()
+        };
+
+        let option_id = format!("opcion_{}", option_index);
+
+        // Llamar a resolver_evento
+        let result = {
+            let mut motor = state.motor.lock().unwrap();
+            motor.api.resolver_evento(&evento_id, &option_id)
+        };
+
+        // Actualizar UI
+        match result {
+            Ok(_) => {
+                // Obtener nuevo estado y actualizar UI
+                let nuevo_estado = {
+                    let mut motor = state.motor.lock().unwrap();
+                    motor.api.estado_jornada()
+                };
+                actualizar_ui(&ui, &nuevo_estado);
+                ui.set_selected_event(-1);
+                ui.set_selected_option(-1);
+                ui.set_mensaje_text(SharedString::from("Evento resuelto exitosamente".to_string()));
+            }
+            Err(e) => {
+                let error_msg = format!("Error al resolver evento: {}", e);
+                ui.set_mensaje_text(SharedString::from(error_msg));
             }
         }
     }
