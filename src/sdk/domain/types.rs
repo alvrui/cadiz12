@@ -2,8 +2,12 @@
 // This file contains all closed enum types forming the formal SDK contract
 
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fmt;
 use std::str::FromStr;
+
+// Re-export ID types from ids module
+pub use super::ids::*;
 
 /// Error type for domain parsing operations
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
@@ -14,405 +18,535 @@ pub enum DomainParseError {
     EmptyString,
     #[error("Invalid format: {0}")]
     InvalidFormat(String),
+    #[error("Value out of range: {0} (expected {1})")]
+    OutOfRange(String, String),
+    #[error("Duplicate ID: {0}")]
+    DuplicateId(String),
+    #[error("Missing reference: {0}")]
+    MissingReference(String),
 }
 
-/// Unique identifier for a faction
+// Existing types
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum FaccionId {
-    Liberal,
-    Absolutista,
-    Clero,
-    Militar,
-    Pueblo,
-    Nobleza,
-    Burguesia,
-    Extranjero,
+    Liberal, Absolutista, Clero, Militar, Pueblo, Nobleza, Burguesia, Extranjero,
 }
 
-impl FaccionId {
-    pub fn variants() -> &'static [Self] {
-        &[
-            Self::Liberal,
-            Self::Absolutista,
-            Self::Clero,
-            Self::Militar,
-            Self::Pueblo,
-            Self::Nobleza,
-            Self::Burguesia,
-            Self::Extranjero,
-        ]
-    }
-}
-
-/// Character origin/background
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
-pub enum Origen {
-    Local,
-    Foraneo,
-    Noble,
-    Plebeyo,
-    Militar,
-    Clerigo,
-    Comerciante,
-    Artesano,
-}
+pub enum Origen { Local, Foraneo, Noble, Plebeyo, Militar, Clerigo, Comerciante, Artesano }
 
-/// Social class of a character
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum ClaseSocial {
-    AltaNobleza,
-    BajaNobleza,
-    Burguesia,
-    CleroAlto,
-    CleroBajo,
-    MilitarAlto,
-    MilitarBajo,
-    Artesano,
-    Comerciante,
-    Campesino,
-    Obrero,
-    Mendigo,
+    AltaNobleza, BajaNobleza, Burguesia, CleroAlto, CleroBajo, MilitarAlto, MilitarBajo,
+    Artesano, Comerciante, Campesino, Obrero, Mendigo,
 }
 
-/// Profession/occupation
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum Oficio {
-    Politico,
-    Militar,
-    Clerigo,
-    Comerciante,
-    Artesano,
-    Abogado,
-    Medico,
-    Periodista,
-    Escritor,
-    Obrero,
-    Campesino,
-    Sirviente,
-    Espia,
-    Contrabandista,
-    Noble,
+    Politico, Militar, Clerigo, Comerciante, Artesano, Abogado, Medico, Periodista,
+    Escritor, Obrero, Campesino, Sirviente, Espia, Contrabandista, Noble,
 }
 
-/// Political affiliation/alignment
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum Adscripcion {
-    Liberal,
-    Absolutista,
-    Moderado,
-    Radical,
-    Conservador,
-    Reformista,
-    Neutral,
-    Oportunista,
+    Liberal, Absolutista, Moderado, Radical, Conservador, Reformista, Neutral, Oportunista,
 }
 
-/// Character temperament
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum Temperamento {
-    Impulsivo,
-    Reflexivo,
-    Agresivo,
-    Pacifista,
-    Honesto,
-    Astuto,
-    Leal,
-    Traitor,
-    Optimista,
-    Pesimista,
-    Carismatico,
-    Timido,
+    Impulsivo, Reflexivo, Agresivo, Pacifista, Honesto, Astuto, Leal, Traitor,
+    Optimista, Pesimista, Carismatico, Timido,
 }
 
-/// Formal position identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum PosicionFormalId {
-    Diputado,
-    Senador,
-    Ministro,
-    General,
-    Almirante,
-    Obispo,
-    Alcalde,
-    Juez,
-    Abogado,
-    Periodista,
-    Comerciante,
-    Artesano,
-    Campesino,
-    Noble,
-    Sirviente,
+    Diputado, Senador, Ministro, General, Almirante, Obispo, Alcalde, Juez,
+    Abogado, Periodista, Comerciante, Artesano, Campesino, Noble, Sirviente,
 }
 
-/// Visibility level
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
-pub enum Visibilidad {
-    Publico,
-    Privado,
-    Secreto,
-    Oculto,
-}
+pub enum Visibilidad { Publico, Privado, Secreto, Oculto }
 
-/// Moral trajectory/alignment
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum TrayectoriaMoral {
-    Heroico,
-    Villano,
-    Antiheroe,
-    Neutral,
-    Oportunista,
-    Idealista,
-    Pragmatico,
-    Corrupto,
-    Redimido,
-    Caido,
+    Heroico, Villano, Antiheroe, Neutral, Oportunista, Idealista, Pragmatico, Corrupto, Redimido, Caido,
 }
 
-/// Event type
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum TipoEvento {
-    Politico,
-    Personal,
-    Militar,
-    Social,
-    Economico,
-    Religioso,
-    Judicial,
-    Diplomatico,
-    Cultural,
-    Urgente,
+    Politico, Personal, Militar, Social, Economico, Religioso, Judicial, Diplomatico, Cultural, Urgente,
 }
 
-/// Crisis phase
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
-pub enum FaseCrisis {
-    Inicio,
-    Desarrollo,
-    Climax,
-    Resolucion,
-    Consecuencia,
-}
+pub enum FaseCrisis { Inicio, Desarrollo, Climax, Resolucion, Consecuencia }
 
-/// Crisis type
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum TipoCrisis {
-    Politica,
-    Social,
-    Economica,
-    Militar,
-    Religiosa,
-    Personal,
-    Institucional,
-    Internacional,
+    Politica, Social, Economica, Militar, Religiosa, Personal, Institucional, Internacional,
 }
 
-/// Space/location identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum EspacioId {
-    Cortes,
-    Calle,
-    Taberna,
-    Iglesia,
-    Cuartel,
-    Puerto,
-    Mercado,
-    Palacio,
-    Casa,
-    Prision,
-    Hospital,
-    Universidad,
-    Plaza,
+    Cortes, Calle, Taberna, Iglesia, Cuartel, Puerto, Mercado, Palacio, Casa, Prision, Hospital, Universidad, Plaza,
 }
 
-/// Relationship status
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum EstadoRelacion {
-    Aliado,
-    Amigo,
-    Conocido,
-    Neutral,
-    Desconfiado,
-    Enemigo,
-    Rival,
-    Mentor,
-    Protegido,
-    Familiar,
+    Aliado, Amigo, Conocido, Neutral, Desconfiado, Enemigo, Rival, Mentor, Protegido, Familiar,
 }
 
-/// Meter/gauge identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
 pub enum MedidorId {
-    Influencia,
-    Reputacion,
-    Moral,
-    Salud,
-    Riqueza,
-    Conocimiento,
-    Lealtad,
-    Miedo,
-    Esperanza,
-    Ira,
+    Influencia, Reputacion, Moral, Salud, Riqueza, Conocimiento, Lealtad, Miedo, Esperanza, Ira,
 }
 
-/// Section/segment identifier
+// New enums
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
 #[strum(serialize_all = "snake_case")]
-pub enum TramoId {
-    Primero,
-    Segundo,
-    Tercero,
-    Cuarto,
-    Quinto,
+pub enum ScriptElementCategory {
+    Protagonist, Antagonist, Secondary, ThemeEvent, Finale, Scenario, Procedure, SocialPressure, DramaticResource,
 }
 
-/// Act type alias - represents a formal act or action in the narrative
-pub type Acto = String;
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum HistoricalScope { PlausibleDocumented, PlausibleInferred, ExceptionalButVerisimilar, Discarded }
 
-/// Day/journey type alias - represents a game day or journey
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum TimeSlice { Y1805_1808, Y1809, Y1810, Y1811, Y1812, Y1813, Y1814, Y1815_1816 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum Act { Act1, Act2, Act3, Act4 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum StakesAxis {
+    Personal, Political, Urban, Institutional, Imperial, Moral, Economic, Religious, Military, Media,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum Tone {
+    Festive, Satirical, Anxious, Solemn, Intimate, Conspiratorial, Patriotic, Sordid,
+    Tragic, Ambiguous, Tense, Polemical, Funereal, Resilient, Combative, Compassionate,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ChainRole { Seed, Complication, Escalation, Crisis, Revelation, Resolution, Aftermath }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum Repeatability { Unique, Rare, ControlledRecurring, Serial }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum VisibilityProfile { None, Discreet, Public }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum InformationProfile { PublicFact, PlausibleRumor, ConfidentialDocument, NetworkSecret, DeliberateAmbiguity }
+
+pub type CompatibilityScore = u8;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ArcSlotRuleType { RequireTag, BlockTag, Faction, Profile, Tone, Act, TimeWindow }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum RuleOperator { Eq, Neq, Gte, Lte, Contains, NotContains, In, NotIn }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ProfileAxis { Oficio, Origen, ClaseSocial, Adscripcion, Temperamento }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum FitKind { Ideal, Possible, Forced }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum FactionAffinityKind { Ally, Hostile, Dependent, Opportunist }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ReputationPolarity { Gains, Loses, Tensions }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum TagRequirementKind { Require, Block }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum OutcomeTargetKind { Meter, Relationship, Reputation, Tag, Crisis }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ThematicAxis {
+    Sovereignty, Religion, Press, Debt, Equality, Justice, Freedom, Order, Progress, Tradition,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum BindingKind { Requires, Favors, Forbids, Decorates }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ArcKind { Political, Relational, Reputational, Mixed }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ArcSlotKind { Element, EventTemplate, Selector }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ResolutionKind { PartialVictory, Cost, Rupture, FullVictory, Compromise, Failure }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum EventFamilyId { A, B, C, D, E, F, S1, S2, S3, S4, S5 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum EventFunctionId { Pressure, Opportunity, Exposure, Transition, Crisis, Resolution }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum TimeCost { Instant, Short, Medium, Long }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum StaminaCost { None, Low, Medium, High }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ConsequenceKind { Positive, Negative, Mixed, Neutral }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum NpcCriterion { Affine, Rival, Recent, RandomWeighted, ByFaction, ByPosition }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ChainKind { Narrative, Emergent, Sidechain }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ChainState { Open, Active, Suspended, Resolved, Failed }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ArcState { Dormant, Active, Suspended, Resolved, Failed }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ArcInstanceSlotState { Pending, Offered, Resolved, Skipped }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ChainNodeState { Generated, Offered, Chosen, Resolved, Expired }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum NarrativeState { Dormant, Active, Suspended, Resolved, Failed }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum EventInstanceState { Generated, Offered, Chosen, Resolved, Expired }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum GlobalState { TenseNormality, PreCrisis, OpenCrisis, PostCrisisAftermath, PublicCelebration, LatentRepression }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum PublicVisibilityLevel { Unknown, Emerging, RecognizableFigure, HighlyExposed }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum MoralTrajectory { Opportunist, Coherent, Ambiguous, Reliable, Feared, Indispensable }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum SpaceClimate { Calm, Saturated, Nervous, Watched, Empty, Effervescent }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum CrisisPhase { Signal, Outbreak, ReactionPeriod, Resolution, Aftermath }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum RelationshipLevel { Unknown, Contact, Ally, IntimatePolitical, Rival, Enemy }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum RelationshipState { Stable, Resentful, Tense, Grateful, Broken, UnderReview }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum SceneTemplateType { AInstitutionalSession, BUrbanEncounter, CPrivateVisit, DDocumentReading, EPublicCrisis, FPersonalConsequence }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum PressureSeriesType { MorningMail, AfternoonEdition, CallToPosition, PendingCommitmentPressure, RumorWithConsequence }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display, strum::EnumString)]
+#[strum(serialize_all = "snake_case")]
+pub enum ProcedureKind {
+    DebatePlenary, TechnicalCommission, EmergencySession, HonorSession, DecreeVote,
+    PriorPositioningCall, PrivateNegotiation, PetitionSubmission, DocumentReading,
+    PressPublication, PressDenunciation, StrategicLeak, StrategicDelay, AmendmentProposal,
+    SecretVoteRequest, SafeConductProcessing, HousingAssignment, HealthDeclaration,
+    NeighborhoodRelief, SignatureCirculation,
+}
+
+pub type Acto = String;
 pub type Jornada = u32;
+pub type Weight = f32;
+pub type MeterDeltaValue = i16;
+pub type RelationshipDeltaValue = i16;
+pub type ReputationDeltaValue = i16;
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CompatibilitySet {
+    pub protagonist_vs_theme: HashMap<ProtagonistId, HashMap<ThemeId, CompatibilityScore>>,
+    pub scenario_vs_theme: HashMap<ScenarioId, HashMap<ThemeId, CompatibilityScore>>,
+    pub antagonist_vs_theme: HashMap<AntagonistId, HashMap<ThemeId, CompatibilityScore>>,
+    pub secondary_vs_theme: HashMap<SecondaryId, HashMap<ThemeId, CompatibilityScore>>,
+    pub procedure_vs_theme: HashMap<ProcedureId, HashMap<ThemeId, CompatibilityScore>>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct ScoringWeights {
+    pub w_protagonist: Weight,
+    pub w_scenario: Weight,
+    pub w_antagonist: Weight,
+    pub w_time: Weight,
+    pub w_act: Weight,
+    pub w_faction: Weight,
+    pub w_state: Weight,
+    pub w_novelty: Weight,
+}
+
+impl Default for ScoringWeights {
+    fn default() -> Self {
+        Self {
+            w_protagonist: 3.0, w_scenario: 2.0, w_antagonist: 1.5, w_time: 2.0,
+            w_act: 1.5, w_faction: 1.5, w_state: 2.0, w_novelty: 1.0,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScriptElementBase {
+    pub id: ElementId, pub category: ScriptElementCategory, pub label: String, pub description: String,
+    pub historical_scope: HistoricalScope, pub time_window: Vec<TimeSlice>, pub act_bias: Vec<Act>,
+    pub faction_vectors: Vec<FaccionId>, pub space_vectors: Vec<EspacioId>, pub stakes_axis: Vec<StakesAxis>,
+    pub tone: Tone, pub chain_role: ChainRole, pub repeatability: Repeatability,
+    pub meter_affinity: Vec<MeterType>, pub visibility_profile: VisibilityProfile,
+    pub information_profile: InformationProfile, pub compatibility_tags: Vec<TagId>,
+    pub blocking_tags: Vec<TagId>, pub unlock_tags: Vec<TagId>, pub generated_tags: Vec<TagId>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ProtagonistArchetype {
+    pub base: ScriptElementBase, pub eligible_profiles: Vec<ProfileAxis>, pub eligible_positions: Vec<PosicionFormalId>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NarrativeDef {
+    pub narrative_id: NarrativeId, pub slug: String, pub title: String, pub summary: String,
+    pub thematic_axis: ThematicAxis, pub default_priority: u8, pub act_start: Act, pub act_end: Act,
+    pub repeatable: bool, pub enabled: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ArcTemplate {
+    pub arc_template_id: ArcTemplateId, pub narrative_id: NarrativeId, pub title: String, pub description: String,
+    pub arc_kind: ArcKind, pub act_open: Act, pub act_close: Act, pub min_chain_length: u8, pub max_chain_length: u8,
+    pub default_resolution_kind: ResolutionKind, pub can_fail_forward: bool, pub enabled: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ArcSlotTemplate {
+    pub arc_slot_id: ArcSlotId, pub arc_template_id: ArcTemplateId, pub slot_order: u8,
+    pub chain_role: ChainRole, pub slot_kind: ArcSlotKind, pub required: bool,
+    pub min_options: u8, pub max_options: u8, pub tone_bias: Option<Tone>, pub crisis_only: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ArcSlotRule {
+    pub arc_slot_rule_id: String, pub arc_slot_id: ArcSlotId, pub rule_type: ArcSlotRuleType,
+    pub operator: RuleOperator, pub value: String, pub weight_delta: Option<i16>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EventTemplate {
+    pub template_id: EventTemplateId, pub family_id: EventFamilyId, pub function_id: EventFunctionId,
+    pub weight_base: i16, pub cooldown_days: u16, pub time_cost: TimeCost, pub stamina_cost: StaminaCost,
+    pub visibility_output: VisibilityProfile, pub info_incomplete: bool, pub consequence_kind: ConsequenceKind,
+    pub crisis_compatible: bool, pub npc_criterion: NpcCriterion,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TemplateElementBinding {
+    pub template_id: EventTemplateId, pub element_id: ElementId, pub binding_kind: BindingKind, pub weight_delta: i16,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EventInstance {
+    pub id: EventInstanceId, pub scene_template: SceneTemplateType, pub pressure_series: Option<PressureSeriesType>,
+    pub main_theme: ThemeId, pub satellite_themes: Vec<ThemeId>, pub protagonist: ProtagonistId,
+    pub antagonist: Option<AntagonistId>, pub secondaries: Vec<SecondaryId>, pub scenario: ScenarioId,
+    pub procedure: ProcedureId, pub dramatic_resources: Vec<ResourceId>, pub scheduled_time: TimeSlice,
+    pub stakes_axis: Vec<StakesAxis>, pub tone: Tone, pub expected_meter_effects: Vec<MeterDeltaValue>,
+    pub generated_tags: Vec<TagId>, pub trace: SelectionTrace,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ThemeBindings {
+    pub theme_id: ThemeId, pub secondary_ids: Vec<SecondaryId>, pub procedure_ids: Vec<ProcedureId>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScoreBreakdown {
+    pub component: String, pub value: f32, pub weight: f32, pub weighted_value: f32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ThemeCandidateTrace {
+    pub theme_id: ThemeId, pub score: f32, pub breakdown: Vec<ScoreBreakdown>,
+    pub rejected: bool, pub rejection_reason: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SelectionTrace {
+    pub candidate_themes: Vec<ThemeCandidateTrace>, pub chosen_theme: ThemeId,
+    pub chosen_secondary_reasons: Vec<String>, pub chosen_procedure_reasons: Vec<String>,
+    pub rejected_reasons: Vec<String>, pub final_score_breakdown: Vec<ScoreBreakdown>,
+}
+
+impl fmt::Display for SelectionTrace {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        writeln!(f, "Selection Trace:")?;
+        writeln!(f, "  Chosen Theme: {}", self.chosen_theme.0)?;
+        writeln!(f, "  Secondary Reasons: {:?}", self.chosen_secondary_reasons)?;
+        writeln!(f, "  Procedure Reasons: {:?}", self.chosen_procedure_reasons)?;
+        writeln!(f, "  Rejected Reasons: {:?}", self.rejected_reasons)?;
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub struct MeterValue {
+    pub meter_type: MeterType, pub value: i32, pub min: i32, pub max: i32,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub struct RelationshipValue {
+    pub target_id: ElementId, pub level: RelationshipLevel, pub state: RelationshipState, pub value: i16,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WorldState {
+    pub global_state: GlobalState, pub current_act: Act, pub current_tramo: TimeSlice,
+    pub crisis_phase: Option<CrisisPhase>, pub active_tags: Vec<TagId>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ProtagonistState {
+    pub protagonist_id: ProtagonistId, pub position: PosicionFormalId, pub visibility: PublicVisibilityLevel,
+    pub moral_trajectory: MoralTrajectory, pub meters: HashMap<MeterType, MeterValue>,
+    pub reputation: HashMap<ReputationGroupId, i16>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SessionState {
+    pub session_id: SessionId, pub current_jornada: Jornada, pub world: WorldState,
+    pub protagonist: ProtagonistState, pub active_narratives: Vec<NarrativeInstanceId>,
+    pub active_arcs: Vec<ArcInstanceId>, pub active_chains: Vec<ChainId>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ValidationError {
+    DuplicateId(String), InvalidRange(String, String), MissingReference(String, String),
+    InvalidCompatibilityScore(CompatibilityScore), MissingTimeWindow(ElementId), MissingActBias(ElementId),
+    MissingThemeBindings(ThemeId), IncompatibleProcedure(ProcedureId), DiscardedThemeInCatalog(ThemeId),
+    MissingTemplateRules(EventTemplateId),
+}
+
+impl fmt::Display for ValidationError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            ValidationError::DuplicateId(id) => write!(f, "Duplicate ID: {}", id),
+            ValidationError::InvalidRange(field, expected) => write!(f, "Invalid range for {}: expected {}", field, expected),
+            ValidationError::MissingReference(entity, id) => write!(f, "Missing reference: {} {}", entity, id),
+            ValidationError::InvalidCompatibilityScore(score) => write!(f, "Invalid compatibility score: {} (must be 0-5)", score),
+            ValidationError::MissingTimeWindow(id) => write!(f, "Missing time window for element: {}", id.0),
+            ValidationError::MissingActBias(id) => write!(f, "Missing act bias for element: {}", id.0),
+            ValidationError::MissingThemeBindings(theme_id) => write!(f, "Missing theme bindings for theme: {}", theme_id.0),
+            ValidationError::IncompatibleProcedure(proc_id) => write!(f, "Incompatible procedure: {}", proc_id.0),
+            ValidationError::DiscardedThemeInCatalog(theme_id) => write!(f, "Discarded theme in catalog: {}", theme_id.0),
+            ValidationError::MissingTemplateRules(template_id) => write!(f, "Missing template rules for: {}", template_id.0),
+        }
+    }
+}
+
+impl std::error::Error for ValidationError {}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MeterDeltaEffect { pub meter_type: MeterType, pub delta: MeterDeltaValue }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RelationshipDeltaEffect {
+    pub target_id: ElementId, pub level_delta: Option<RelationshipLevel>, pub state_delta: Option<RelationshipState>,
+    pub value_delta: RelationshipDeltaValue,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReputationDeltaEffect {
+    pub group_id: ReputationGroupId, pub delta: ReputationDeltaValue, pub polarity: ReputationPolarity,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EventOutcomePrototype {
+    pub meter_deltas: Vec<MeterDeltaEffect>, pub relationship_deltas: Vec<RelationshipDeltaEffect>,
+    pub reputation_deltas: Vec<ReputationDeltaEffect>, pub add_tags: Vec<TagId>, pub remove_tags: Vec<TagId>,
+    pub unlock_elements: Vec<ElementId>, pub lock_elements: Vec<ElementId>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EventInstanceOutcome {
+    pub outcome_id: OutcomeId, pub event_instance_id: EventInstanceId, pub target_kind: OutcomeTargetKind,
+    pub target_id: Option<String>, pub delta_value: i16, pub execute_on_jornada: Jornada, pub applied: bool,
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_faccion_id_parsing() {
+    #[test] fn test_enums() {
         assert_eq!("liberal".parse::<FaccionId>().unwrap(), FaccionId::Liberal);
-        assert_eq!("absolutista".parse::<FaccionId>().unwrap(), FaccionId::Absolutista);
+        assert_eq!("protagonist".parse::<ScriptElementCategory>().unwrap(), ScriptElementCategory::Protagonist);
     }
-
-    #[test]
-    fn test_origen_parsing() {
-        assert_eq!("local".parse::<Origen>().unwrap(), Origen::Local);
-        assert_eq!("foraneo".parse::<Origen>().unwrap(), Origen::Foraneo);
-    }
-
-    #[test]
-    fn test_clase_social_parsing() {
-        assert_eq!("alta_nobleza".parse::<ClaseSocial>().unwrap(), ClaseSocial::AltaNobleza);
-        assert_eq!("burguesia".parse::<ClaseSocial>().unwrap(), ClaseSocial::Burguesia);
-    }
-
-    #[test]
-    fn test_oficio_parsing() {
-        assert_eq!("politico".parse::<Oficio>().unwrap(), Oficio::Politico);
-        assert_eq!("militar".parse::<Oficio>().unwrap(), Oficio::Militar);
-    }
-
-    #[test]
-    fn test_adscripcion_parsing() {
-        assert_eq!("liberal".parse::<Adscripcion>().unwrap(), Adscripcion::Liberal);
-        assert_eq!("neutral".parse::<Adscripcion>().unwrap(), Adscripcion::Neutral);
-    }
-
-    #[test]
-    fn test_temperamento_parsing() {
-        assert_eq!("impulsivo".parse::<Temperamento>().unwrap(), Temperamento::Impulsivo);
-        assert_eq!("reflexivo".parse::<Temperamento>().unwrap(), Temperamento::Reflexivo);
-    }
-
-    #[test]
-    fn test_posicion_formal_id_parsing() {
-        assert_eq!("diputado".parse::<PosicionFormalId>().unwrap(), PosicionFormalId::Diputado);
-        assert_eq!("general".parse::<PosicionFormalId>().unwrap(), PosicionFormalId::General);
-    }
-
-    #[test]
-    fn test_visibilidad_parsing() {
-        assert_eq!("publico".parse::<Visibilidad>().unwrap(), Visibilidad::Publico);
-        assert_eq!("secreto".parse::<Visibilidad>().unwrap(), Visibilidad::Secreto);
-    }
-
-    #[test]
-    fn test_trayectoria_moral_parsing() {
-        assert_eq!("heroico".parse::<TrayectoriaMoral>().unwrap(), TrayectoriaMoral::Heroico);
-        assert_eq!("villano".parse::<TrayectoriaMoral>().unwrap(), TrayectoriaMoral::Villano);
-    }
-
-    #[test]
-    fn test_tipo_evento_parsing() {
-        assert_eq!("politico".parse::<TipoEvento>().unwrap(), TipoEvento::Politico);
-        assert_eq!("urgente".parse::<TipoEvento>().unwrap(), TipoEvento::Urgente);
-    }
-
-    #[test]
-    fn test_fase_crisis_parsing() {
-        assert_eq!("inicio".parse::<FaseCrisis>().unwrap(), FaseCrisis::Inicio);
-        assert_eq!("climax".parse::<FaseCrisis>().unwrap(), FaseCrisis::Climax);
-    }
-
-    #[test]
-    fn test_tipo_crisis_parsing() {
-        assert_eq!("politica".parse::<TipoCrisis>().unwrap(), TipoCrisis::Politica);
-        assert_eq!("social".parse::<TipoCrisis>().unwrap(), TipoCrisis::Social);
-    }
-
-    #[test]
-    fn test_espacio_id_parsing() {
-        assert_eq!("cortes".parse::<EspacioId>().unwrap(), EspacioId::Cortes);
-        assert_eq!("taberna".parse::<EspacioId>().unwrap(), EspacioId::Taberna);
-    }
-
-    #[test]
-    fn test_estado_relacion_parsing() {
-        assert_eq!("aliado".parse::<EstadoRelacion>().unwrap(), EstadoRelacion::Aliado);
-        assert_eq!("enemigo".parse::<EstadoRelacion>().unwrap(), EstadoRelacion::Enemigo);
-    }
-
-    #[test]
-    fn test_medidor_id_parsing() {
-        assert_eq!("influencia".parse::<MedidorId>().unwrap(), MedidorId::Influencia);
-        assert_eq!("reputacion".parse::<MedidorId>().unwrap(), MedidorId::Reputacion);
-    }
-
-    #[test]
-    fn test_tramo_id_parsing() {
-        assert_eq!("primero".parse::<TramoId>().unwrap(), TramoId::Primero);
-        assert_eq!("segundo".parse::<TramoId>().unwrap(), TramoId::Segundo);
-    }
-
-    #[test]
-    fn test_type_aliases() {
-        let acto: Acto = "Declaración de Independencia".to_string();
-        let jornada: Jornada = 1;
-        assert_eq!(acto, "Declaración de Independencia");
-        assert_eq!(jornada, 1);
-    }
-
-    #[test]
-    fn test_serialization() {
-        let faccion = FaccionId::Liberal;
-        let json = serde_json::to_string(&faccion).unwrap();
-        assert_eq!(json, "\"liberal\"");
-
-        let origen = Origen::Local;
-        let json = serde_json::to_string(&origen).unwrap();
-        assert_eq!(json, "\"local\"");
-    }
-
-    #[test]
-    fn test_deserialization() {
-        let json = "\"liberal\"";
-        let faccion: FaccionId = serde_json::from_str(json).unwrap();
-        assert_eq!(faccion, FaccionId::Liberal);
-
-        let json = "\"local\"";
-        let origen: Origen = serde_json::from_str(json).unwrap();
-        assert_eq!(origen, Origen::Local);
+    #[test] fn test_weights() {
+        let w = ScoringWeights::default();
+        assert_eq!(w.w_protagonist, 3.0);
     }
 }
